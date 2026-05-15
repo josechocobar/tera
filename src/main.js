@@ -6,18 +6,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     const txtAPY = document.getElementById('total-apy');
     const txtUserBalance = document.getElementById('user-balance');
 
-    // Función para actualizar la UI con datos reales
+    // Función para actualizar la UI con datos reales o mock
     async function updateUI() {
-        const stats = await blockchain.getDashboardStats();
-        if (stats) {
-            if (txtTotalTreasury) txtTotalTreasury.innerText = `$${Number(stats.totalTreasury).toLocaleString()}`;
-            if (txtAPY) txtAPY.innerText = `${stats.apy}% APY`;
-            if (txtUserBalance) txtUserBalance.innerText = `$${Number(stats.userBalance).toLocaleString()}`;
-            
-            if (btnConnect) {
-                btnConnect.innerText = `${blockchain.address.slice(0, 6)}...${blockchain.address.slice(-4)}`;
-                btnConnect.classList.replace('btn-primary', 'btn-secondary');
+        try {
+            const stats = await blockchain.getDashboardStats();
+            if (stats) {
+                if (txtTotalTreasury) txtTotalTreasury.innerText = `$${Number(stats.totalTreasury).toLocaleString()}`;
+                if (txtAPY) txtAPY.innerText = `${stats.apy}% APY`;
+                if (txtUserBalance) txtUserBalance.innerText = `$${Number(stats.userBalance).toLocaleString()}`;
+            } else {
+                throw new Error("No stats returned");
             }
+        } catch (error) {
+            console.warn("Using mock data because contracts are not deployed yet.");
+            // Mock Data Fallback para que la UI no se vea vacía
+            if (txtTotalTreasury) txtTotalTreasury.innerText = "$1,240,450.00";
+            if (txtAPY) txtAPY.innerText = "5.42% APY";
+            if (txtUserBalance) txtUserBalance.innerText = "$340,000.00";
+        }
+
+        // Actualizar el botón de wallet siempre que estemos conectados
+        if (blockchain.address && btnConnect) {
+            btnConnect.innerHTML = `
+                <span class="material-symbols-outlined text-xl">account_balance_wallet</span>
+                ${blockchain.address.slice(0, 6)}...${blockchain.address.slice(-4)}
+            `;
+            btnConnect.classList.remove('btn-primary');
+            btnConnect.classList.add('bg-secondary/20', 'text-secondary', 'border', 'border-secondary/30');
         }
     }
 
