@@ -1,0 +1,100 @@
+/* Custom Styles & Animations for Tera */
+
+:root {
+    --chart-glow: rgba(57, 255, 136, 0.5);
+}
+
+body {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+}
+
+.glass-card {
+    background: linear-gradient(135deg, rgba(22, 34, 56, 0.7) 0%, rgba(18, 24, 31, 0.8) 100%);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.chart-gradient {
+    background: linear-gradient(180deg, rgba(29, 144, 249, 0.05) 0%, rgba(29, 144, 249, 0) 100%);
+}
+
+.chart-line {
+    filter: drop-shadow(0 0 8px var(--chart-glow));
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 2s ease-out forwards;
+}
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.progress-bar-fill {
+    animation: slideIn 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    transform-origin: left;
+    transform: scaleX(0);
+}
+
+@keyframes slideIn {
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.chart-bar {
+    animation: growUp 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    transform-origin: bottom;
+    transform: scaleY(0);
+}
+
+@keyframes growUp {
+    to {
+        transform: scaleY(1);
+    }
+}
+
+.btn {
+    @apply flex items-center justify-center py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all active:scale-95;
+}
+
+.btn-primary {
+    @apply bg-primary text-background shadow-lg shadow-primary/20 hover:brightness-110;
+}
+
+.btn-secondary {
+    @apply bg-surface-variant text-white border border-outline-variant hover:bg-surface-variant/80;
+}
+
+.font-variation-fill {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Micro-interactions */
+.activity-item {
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.activity-item:hover {
+    transform: translateX(4px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #23324A;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1D90F9;
+}

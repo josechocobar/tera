@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+    <title>Tera | Yield Analytics</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="styles.css">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#1D90F9",
+                        "secondary": "#39FF88",
+                        "tertiary": "#68fcc1",
+                        "background": "#071420",
+                        "surface": "#12181F",
+                        "surface-variant": "#1f2b37",
+                        "on-surface": "#d7e4f4",
+                        "on-surface-variant": "#9ba8b7",
+                        "outline-variant": "#23324A"
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface pb-32 antialiased">
+    <!-- TopAppBar (Mobile only) -->
+    <header class="lg:hidden fixed top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-outline-variant flex justify-between items-center px-4 py-4">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <span class="material-symbols-outlined text-background text-xl font-bold">account_balance</span>
+            </div>
+            <span class="text-xl font-bold tracking-tight">Tera</span>
+        </div>
+        <button class="material-symbols-outlined text-on-surface-variant p-2">notifications</button>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar (Desktop only) -->
+        <aside class="hidden lg:flex flex-col w-64 bg-surface border-r border-outline-variant fixed h-full p-6 gap-8">
+            <div class="flex items-center gap-3 px-2">
+                <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+                    <span class="material-symbols-outlined text-background text-2xl font-bold">account_balance</span>
+                </div>
+                <span class="text-2xl font-black tracking-tighter text-white">Tera</span>
+            </div>
+            
+            <nav class="flex flex-col gap-2">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-white hover:bg-surface-variant/30 rounded-xl font-bold transition-all">
+                    <span class="material-symbols-outlined">grid_view</span>
+                    Dashboard
+                </a>
+                <a href="products.html" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-white hover:bg-surface-variant/30 rounded-xl font-bold transition-all">
+                    <span class="material-symbols-outlined">account_balance_wallet</span>
+                    Vaults
+                </a>
+                <a href="analytics.html" class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl font-bold transition-all">
+                    <span class="material-symbols-outlined font-variation-fill">analytics</span>
+                    Analytics
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-white hover:bg-surface-variant/30 rounded-xl font-bold transition-all">
+                    <span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 mt-24 lg:mt-0 lg:ml-64 px-4 lg:px-10 py-8 lg:py-12 max-w-[1400px] mx-auto w-full space-y-8">
+            <!-- Header Section -->
+            <section class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div class="flex flex-col gap-1">
+                    <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em]">Yield Insights</span>
+                    <h2 class="text-3xl lg:text-5xl font-extrabold text-white tracking-tighter">Analytics</h2>
+                </div>
+                <div class="flex items-center gap-2 bg-surface/50 border border-outline-variant px-4 py-2 rounded-xl backdrop-blur-sm self-start">
+                    <span class="material-symbols-outlined text-sm text-primary">calendar_today</span>
+                    <span class="text-[10px] font-bold text-white uppercase tracking-wider">Last 30 Days</span>
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Performance Breakdown Chart -->
+                    <section class="glass-card border border-outline-variant p-8 rounded-3xl space-y-8">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-1">Performance Breakdown</h3>
+                                <p class="text-2xl font-black text-white">8.42% <span class="text-secondary text-xs font-bold ml-1 uppercase">Actual APY</span></p>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="flex items-center gap-1.5">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_8px_rgba(29,144,249,0.4)]"></div>
+                                    <span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest">Actual</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="h-64 w-full flex items-end justify-between gap-2 mt-4">
+                            <!-- Optimized for more bars on Desktop -->
+                            <div class="flex-1 bg-surface-variant/20 rounded-t-xl relative h-full group">
+                                <div class="absolute bottom-0 w-full bg-primary/40 rounded-t-xl border-t-2 border-primary chart-bar" style="height: 60%"></div>
+                            </div>
+                            <div class="flex-1 bg-surface-variant/20 rounded-t-xl relative h-full">
+                                <div class="absolute bottom-0 w-full bg-primary/40 rounded-t-xl border-t-2 border-primary chart-bar" style="height: 55%"></div>
+                            </div>
+                            <div class="flex-1 bg-surface-variant/20 rounded-t-xl relative h-full">
+                                <div class="absolute bottom-0 w-full bg-primary/40 rounded-t-xl border-t-2 border-primary chart-bar" style="height: 85%"></div>
+                            </div>
+                            <div class="flex-1 bg-surface-variant/20 rounded-t-xl relative h-full">
+                                <div class="absolute bottom-0 w-full bg-primary/40 rounded-t-xl border-t-2 border-primary chart-bar" style="height: 75%"></div>
+                            </div>
+                            <div class="flex-1 bg-surface-variant/20 rounded-t-xl relative h-full">
+                                <div class="absolute bottom-0 w-full bg-primary/40 rounded-t-xl border-t-2 border-primary chart-bar" style="height: 92%"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Efficiency Metrics -->
+                    <section class="grid grid-cols-2 gap-4">
+                        <div class="glass-card border border-outline-variant p-6 rounded-2xl space-y-2 hover:border-secondary/30 transition-colors group">
+                            <div class="flex items-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                                <span class="material-symbols-outlined text-sm text-secondary">bolt</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest">Utilization</span>
+                            </div>
+                            <span class="text-3xl font-black text-white">92%</span>
+                        </div>
+                        <div class="glass-card border border-outline-variant p-6 rounded-2xl space-y-2 hover:border-primary/30 transition-colors group">
+                            <div class="flex items-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                                <span class="material-symbols-outlined text-sm text-primary">savings</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest">Gas Saved</span>
+                            </div>
+                            <span class="text-3xl font-black text-white">$4.2k</span>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column (AI & Allocation) -->
+                <div class="space-y-8">
+                    <!-- AI Insights -->
+                    <div class="glass-card rounded-3xl p-8 border-2 border-primary/20 relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/5"></div>
+                        <div class="relative z-10 space-y-4">
+                            <span class="bg-primary/20 text-primary text-[10px] font-black px-2 py-0.5 rounded-md uppercase tracking-widest border border-primary/30">Intelligence</span>
+                            <h4 class="text-2xl font-black text-white tracking-tighter leading-none">Treasury AI Insights</h4>
+                            <p class="text-xs text-on-surface-variant leading-relaxed font-medium">Optimal rebalancing predicted in 48 hours for USDC/T-Bill parity optimization.</p>
+                            <button class="btn btn-primary w-full mt-4">Review Strategy</button>
+                        </div>
+                    </div>
+
+                    <!-- Allocation Summary -->
+                    <section class="space-y-4">
+                        <h3 class="text-lg font-bold text-white tracking-tight">Top Allocation</h3>
+                        <div class="glass-card border border-outline-variant p-6 rounded-2xl flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-[#2775CA]/10 flex items-center justify-center border border-[#2775CA]/30">
+                                    <span class="material-symbols-outlined text-[#2775CA]">monetization_on</span>
+                                </div>
+                                <span class="text-sm font-bold text-white">USDC</span>
+                            </div>
+                            <span class="text-sm font-bold text-white">45.2%</span>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Navigation (Mobile only) -->
+    <nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-background/90 backdrop-blur-xl border-t border-outline-variant">
+        <a href="index.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+            <span class="material-symbols-outlined">grid_view</span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Dashboard</span>
+        </a>
+        <a href="products.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+            <span class="material-symbols-outlined">account_balance_wallet</span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Vaults</span>
+        </a>
+        <a href="analytics.html" class="flex flex-col items-center gap-1 text-secondary">
+            <span class="material-symbols-outlined font-variation-fill">analytics</span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Analytics</span>
+        </a>
+        <a href="#" class="flex flex-col items-center gap-1 text-on-surface-variant">
+            <span class="material-symbols-outlined">settings</span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Settings</span>
+        </a>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
