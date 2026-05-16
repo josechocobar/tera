@@ -83,6 +83,41 @@ export class BlockchainService {
         
         return receipt;
     }
+
+    async getWalletBalance() {
+        if (!this.usdcContract) await this.connect();
+        try {
+            const balance = await this.usdcContract.balanceOf(this.address);
+            return ethers.formatUnits(balance, 6);
+        } catch (error) {
+            console.error("Error fetching wallet balance:", error);
+            return "0.00";
+        }
+    }
+
+    async watchAsset() {
+        if (!window.ethereum) return;
+        
+        const addresses = CONTRACT_ADDRESSES[this.network];
+        
+        try {
+            await window.ethereum.request({
+                method: 'wallet_watchAsset',
+                params: {
+                    type: 'ERC20',
+                    options: {
+                        address: addresses.usdc,
+                        symbol: 'USDC',
+                        decimals: 6,
+                        image: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.png',
+                    },
+                },
+            });
+        } catch (error) {
+            console.error("Error watching asset:", error);
+        }
+    }
 }
+
 
 export const blockchain = new BlockchainService();

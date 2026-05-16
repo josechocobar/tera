@@ -6,9 +6,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const txtTotalTreasury = document.getElementById('total-treasury');
     const txtAPY = document.getElementById('total-apy');
     const txtUserBalance = document.getElementById('user-balance');
+    const txtWalletBalance = document.getElementById('wallet-balance');
     
     const btnLangEn = document.getElementById('lang-en');
     const btnLangEs = document.getElementById('lang-es');
+
+    const btnAddMetaMask = document.getElementById('btn-add-metamask');
 
     // Inicializar i18n
     i18n.apply();
@@ -18,18 +21,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function updateUI() {
         try {
             const stats = await blockchain.getDashboardStats();
+            const walletBal = await blockchain.getWalletBalance();
+
             if (stats) {
                 if (txtTotalTreasury) txtTotalTreasury.innerText = `$${Number(stats.totalTreasury).toLocaleString()}`;
                 if (txtAPY) txtAPY.innerText = `${stats.apy}% APY`;
                 if (txtUserBalance) txtUserBalance.innerText = `$${Number(stats.userBalance).toLocaleString()}`;
-            } else {
-                throw new Error("No stats returned");
+            }
+
+            if (txtWalletBalance) {
+                txtWalletBalance.innerText = `$${Number(walletBal).toLocaleString()}`;
             }
         } catch (error) {
             console.warn("Using mock data because contracts are not deployed yet.");
             if (txtTotalTreasury) txtTotalTreasury.innerText = "$1,240,450.00";
             if (txtAPY) txtAPY.innerText = "5.42% APY";
             if (txtUserBalance) txtUserBalance.innerText = "$340,000.00";
+            if (txtWalletBalance) txtWalletBalance.innerText = "$1,000.00";
         }
 
         updateWalletButton();
@@ -79,10 +87,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateWalletButton();
     });
 
+    // --- Botón MetaMask ---
+    if (btnAddMetaMask) {
+        btnAddMetaMask.addEventListener('click', () => blockchain.watchAsset());
+    }
+
     // --- Modal de Inversión Rápida (FAB) ---
     const fab = document.getElementById('fab-quick-invest');
     const modal = document.getElementById('modal-quick-invest');
     const closeBase = document.getElementById('modal-close-base');
+    const btnConfirmDeposit = document.getElementById('btn-confirm-deposit');
 
     if (fab && modal) {
         fab.addEventListener('click', () => {
@@ -95,6 +109,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         closeBase.addEventListener('click', () => {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+        });
+    }
+
+    if (btnConfirmDeposit) {
+        btnConfirmDeposit.addEventListener('click', async () => {
+            const inputAmount = modal.querySelector('input');
+            const amount = inputAmount.value;
+
+            if (!amount || amount <= 0) {
+                alert("Please enter a valid amount");
+                return;
+            }
+
+            try {
+                btnConfirmDeposit.innerText = i18n.t('confirming');
+                btnConfirmDeposit.disabled = true;
+
+                await blockchain.deposit(amount);
+                
+                btnConfirmDeposit.innerText = i18n.t('deposit_success');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    btnConfirmDeposit.innerText = i18n.t('confirm_deposit');
+                    btnConfirmDeposit.disabled = false;
+                }, 2000);
+
+                await updateUI();
+            } catch (error) {
+                console.error(error);
+                alert("Deposit failed: " + error.message);
+                btnConfirmDeposit.innerText = i18n.t('confirm_deposit');
+                btnConfirmDeposit.disabled = false;
+            }
         });
     }
 

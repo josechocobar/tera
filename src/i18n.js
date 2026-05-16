@@ -30,7 +30,11 @@ export const translations = {
         low_risk: "Low Risk",
         medium_risk: "Medium Risk",
         quick_invest: "Quick Investment",
-        confirm_deposit: "Confirm Deposit"
+        confirm_deposit: "Confirm Deposit",
+        in_wallet: "In Wallet",
+        add_to_metamask: "Add to MetaMask",
+        confirming: "Confirming...",
+        deposit_success: "Deposit Successful!"
     },
     es: {
         dashboard: "Panel",
@@ -63,8 +67,13 @@ export const translations = {
         low_risk: "Riesgo Bajo",
         medium_risk: "Riesgo Medio",
         quick_invest: "Inversión Rápida",
-        confirm_deposit: "Confirmar Depósito"
+        confirm_deposit: "Confirmar Depósito",
+        in_wallet: "En Billetera",
+        add_to_metamask: "Añadir a MetaMask",
+        confirming: "Confirmando...",
+        deposit_success: "¡Depósito Exitoso!"
     }
+
 
 
 };
