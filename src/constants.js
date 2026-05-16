@@ -3,6 +3,7 @@ export const TERA_VAULT_ABI = [
   "function totalDeposited() view returns (uint256)",
   "function currentAPY() view returns (uint256)",
   "function getPosition(address account) view returns (uint256 deposited, uint256 yieldEarned, uint256 lockExpiry, bool isLocked)",
+  "function users(address) view returns (uint256 deposited, uint256 yieldEarned, uint256 lockExpiry, uint256 lastUpdate, uint256 userApy)",
   "function deposit(uint256 amount, uint256 duration)",
   "function withdraw()",
   "function claimYield()",

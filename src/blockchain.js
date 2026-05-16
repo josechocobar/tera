@@ -35,19 +35,25 @@ export class BlockchainService {
         if (!this.vaultContract) await this.connect();
 
         try {
-            const totalDeposited = await this.vaultContract.totalActiveDeposits();
+            const totalDeposited = await this.vaultContract.totalDeposited();
             
             let userBalance = 0;
             let yieldEarned = 0;
             let lockExpiry = 0;
-            let userApy = 0;
+            let userApy = 542; // Default APY
             
             if (this.address) {
+                // getPosition returns: (deposited, yieldEarned, lockExpiry, isLocked)
                 const position = await this.vaultContract.getPosition(this.address);
-                userBalance = position.amount;
-                yieldEarned = position.yieldEarned;
-                lockExpiry = position.lockExpiry;
-                userApy = position.currentApy;
+                userBalance = position[0];   // deposited
+                yieldEarned = position[1];   // yieldEarned
+                lockExpiry = position[2];    // lockExpiry
+
+                // Get user-specific APY from the users mapping
+                const userInfo = await this.vaultContract.users(this.address);
+                if (Number(userInfo.userApy) > 0) {
+                    userApy = Number(userInfo.userApy);
+                }
             }
 
             return {
@@ -62,6 +68,7 @@ export class BlockchainService {
             return null;
         }
     }
+
 
 
     async deposit(amount, duration) {
