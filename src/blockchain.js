@@ -84,6 +84,28 @@ export class BlockchainService {
         }
     }
 
+    async withdraw() {
+        if (!this.vaultContract) await this.connect();
+        try {
+            const tx = await this.vaultContract.withdraw();
+            return await tx.wait();
+        } catch (error) {
+            if (error.code === 4001) throw new Error("USER_CANCELLED");
+            throw error;
+        }
+    }
+
+    async claimYield() {
+        if (!this.vaultContract) await this.connect();
+        try {
+            const tx = await this.vaultContract.claimYield();
+            return await tx.wait();
+        } catch (error) {
+            if (error.code === 4001) throw new Error("USER_CANCELLED");
+            throw error;
+        }
+    }
+
     async getWalletBalance() {
         if (!this.usdcContract) await this.connect();
         try {

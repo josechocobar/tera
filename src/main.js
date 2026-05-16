@@ -97,6 +97,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     const modal = document.getElementById('modal-quick-invest');
     const closeBase = document.getElementById('modal-close-base');
     const btnConfirmDeposit = document.getElementById('btn-confirm-deposit');
+    
+    const btnWithdraw = document.getElementById('btn-withdraw');
+    const btnClaim = document.getElementById('btn-claim');
+
+    if (btnWithdraw) {
+        btnWithdraw.addEventListener('click', async () => {
+            try {
+                btnWithdraw.innerText = i18n.t('confirming');
+                await blockchain.withdraw();
+                alert("Withdraw successful!");
+                await updateUI();
+            } catch (error) {
+                if (error.message !== "USER_CANCELLED") alert("Withdraw failed: " + error.message);
+            } finally {
+                btnWithdraw.innerText = 'Withdraw';
+            }
+        });
+    }
+
+    if (btnClaim) {
+        btnClaim.addEventListener('click', async () => {
+            try {
+                btnClaim.innerText = i18n.t('confirming');
+                await blockchain.claimYield();
+                alert("Yield claimed!");
+                await updateUI();
+            } catch (error) {
+                if (error.message !== "USER_CANCELLED") alert("Claim failed: " + error.message);
+            } finally {
+                btnClaim.innerText = 'Claim';
+            }
+        });
+    }
 
     if (fab && modal) {
         fab.addEventListener('click', () => {
