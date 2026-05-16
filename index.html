@@ -67,33 +67,38 @@
             <nav class="flex flex-col gap-2">
                 <a href="index.html" class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl font-bold transition-all">
                     <span class="material-symbols-outlined font-variation-fill">grid_view</span>
-                    Dashboard
+                    <span data-i18n="dashboard">Dashboard</span>
                 </a>
                 <a href="products.html" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-white hover:bg-surface-variant/30 rounded-xl font-bold transition-all">
                     <span class="material-symbols-outlined">account_balance_wallet</span>
-                    Vaults
+                    <span data-i18n="vaults">Vaults</span>
                 </a>
                 <a href="analytics.html" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-white hover:bg-surface-variant/30 rounded-xl font-bold transition-all">
                     <span class="material-symbols-outlined">analytics</span>
-                    Analytics
+                    <span data-i18n="analytics">Analytics</span>
                 </a>
                 <a href="#" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-white hover:bg-surface-variant/30 rounded-xl font-bold transition-all">
                     <span class="material-symbols-outlined">settings</span>
-                    Settings
+                    <span data-i18n="settings">Settings</span>
                 </a>
             </nav>
 
             <div class="mt-auto space-y-4">
                 <button id="btn-connect" class="btn btn-primary w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm transition-all active:scale-95">
                     <span class="material-symbols-outlined text-xl">wallet</span>
-                    Connect Wallet
+                    <span data-i18n="connect_wallet">Connect Wallet</span>
                 </button>
+
+                <div class="flex items-center gap-2 p-1 bg-surface-variant/20 rounded-xl border border-outline-variant/30">
+                    <button id="lang-en" class="flex-1 py-2 text-[10px] font-black rounded-lg transition-all bg-primary text-background">EN</button>
+                    <button id="lang-es" class="flex-1 py-2 text-[10px] font-black rounded-lg transition-all text-on-surface-variant hover:text-white">ES</button>
+                </div>
                 
                 <div class="glass-card p-4 rounded-2xl border border-outline-variant/50">
-                    <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">System Status</p>
+                    <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2" data-i18n="system_status">System Status</p>
                     <div class="flex items-center gap-2 text-secondary text-xs font-bold">
                         <span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
-                        Operational
+                        <span data-i18n="operational">Operational</span>
                     </div>
                 </div>
             </div>
@@ -105,12 +110,12 @@
             <!-- Hero & Title Section -->
             <section class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div class="flex flex-col gap-1">
-                    <span class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold">Total Treasury Balance</span>
+                    <span class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold" data-i18n="total_treasury">Total Treasury Balance</span>
                     <h1 id="total-treasury" class="text-4xl lg:text-6xl font-extrabold tracking-tighter text-white">$0.00</h1>
                     <div class="flex items-center gap-3 mt-2">
                         <div class="flex items-center gap-1 text-secondary text-sm font-medium">
                             <span class="material-symbols-outlined text-sm">trending_up</span>
-                            <span>+$0.00 today</span>
+                            <span>+$0.00 <span data-i18n="today_change">today</span></span>
                         </div>
                         <div class="bg-secondary/10 px-2 py-0.5 rounded-md border border-secondary/20">
                             <span id="total-apy" class="text-[10px] font-bold text-secondary uppercase">0.00% APY</span>
@@ -118,8 +123,8 @@
                     </div>
                 </div>
                 <div class="hidden lg:flex items-center gap-4">
-                    <button class="btn btn-secondary px-6">Export PDF</button>
-                    <button class="btn btn-primary px-6">Manage Assets</button>
+                    <button class="btn btn-secondary px-6" data-i18n="export_pdf">Export PDF</button>
+                    <button class="btn btn-primary px-6" data-i18n="manage_assets">Manage Assets</button>
                 </div>
             </section>
 
@@ -131,11 +136,11 @@
                     <!-- KPI Cards (2 columns always) -->
                     <div class="grid grid-cols-2 gap-4">
                         <div class="glass-card p-6 rounded-2xl flex flex-col gap-2 border border-outline-variant">
-                            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Your Balance</span>
+                            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold" data-i18n="your_balance">Your Balance</span>
                             <span id="user-balance" class="text-3xl font-bold text-white">$0.00</span>
                         </div>
                         <div class="glass-card p-6 rounded-2xl flex flex-col gap-2 border border-outline-variant">
-                            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Active Vaults</span>
+                            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold" data-i18n="active_vaults">Active Vaults</span>
                             <span class="text-3xl font-bold text-white">4</span>
                         </div>
                     </div>
@@ -143,7 +148,7 @@
                     <!-- Yield Performance Card -->
                     <section class="glass-card p-8 rounded-3xl border border-outline-variant flex flex-col gap-6">
                         <div class="flex justify-between items-center">
-                            <h3 class="text-xl font-bold text-white tracking-tight">Yield Performance (30D)</h3>
+                            <h3 class="text-xl font-bold text-white tracking-tight" data-i18n="yield_performance">Yield Performance (30D)</h3>
                             <div class="flex gap-2">
                                 <button class="p-2 hover:bg-surface-variant rounded-lg text-on-surface-variant hover:text-white transition-colors">
                                     <span class="material-symbols-outlined">download</span>
@@ -173,8 +178,8 @@
                     <!-- Recent Activity -->
                     <section class="flex flex-col gap-6">
                         <div class="flex justify-between items-end">
-                            <h3 class="text-xl font-bold text-white tracking-tight">Activity</h3>
-                            <button class="text-[10px] font-bold text-primary hover:underline uppercase tracking-widest">View All</button>
+                            <h3 class="text-xl font-bold text-white tracking-tight" data-i18n="activity">Activity</h3>
+                            <button class="text-[10px] font-bold text-primary hover:underline uppercase tracking-widest" data-i18n="view_all">View All</button>
                         </div>
                         <div class="flex flex-col gap-4">
                             <a href="vault.html" class="activity-item glass-card p-5 rounded-2xl flex items-center justify-between border border-outline-variant transition-all hover:bg-surface-variant/30">
