@@ -100,6 +100,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         timeStr += `${mins}m ${secs}s`;
                         
                         if (lockTimer) lockTimer.innerText = `Locked: ${timeStr}`;
+                        // Log para que el usuario pueda ver en consola que está funcionando
+                        if (now % 10 === 0) console.log(`Lock ends in ${diff} seconds`);
                     } else {
                         // Si ya no está bloqueado y hay saldo, habilitamos el botón
                         if (btnWithdraw && Number(stats.userBalance) > 0) {
