@@ -17,32 +17,81 @@ document.addEventListener('DOMContentLoaded', async () => {
     i18n.apply();
     updateLangUI();
 
-    // Función para actualizar la UI con datos reales o mock
+    let uiInterval = null;
+
+    // Función para actualizar la UI con datos reales
     async function updateUI() {
         try {
             const stats = await blockchain.getDashboardStats();
             const walletBal = await blockchain.getWalletBalance();
 
             if (stats) {
-                // Mostramos 6 decimales para ver el movimiento del yield
                 if (txtTotalTreasury) txtTotalTreasury.innerText = `$${Number(stats.totalTreasury).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 6})}`;
                 if (txtAPY) txtAPY.innerText = `${stats.apy}% APY`;
                 if (txtUserBalance) txtUserBalance.innerText = `$${Number(stats.userBalance).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 6})}`;
+                
+                // --- Lógica de Contador en Vivo y Reloj ---
+                const yieldLive = document.getElementById('yield-live');
+                const lockStatus = document.getElementById('lock-status');
+                const lockTimer = document.getElementById('lock-timer');
+                
+                if (uiInterval) clearInterval(uiInterval);
+                
+                uiInterval = setInterval(() => {
+                    const now = Math.floor(Date.now() / 1000);
+                    
+                    // 1. Ganancia en vivo (Simulación visual rápida)
+                    let currentYield = Number(stats.userYield);
+                    if (Number(stats.userBalance) > 0) {
+                        const perSecond = (Number(stats.userBalance) * (Number(stats.apy)/100)) / (365 * 24 * 3600);
+                        currentYield += perSecond;
+                        stats.userYield = currentYield; 
+                    }
+                    if (yieldLive) yieldLive.innerText = `+$${currentYield.toFixed(6)}`;
+
+                    // 2. Reloj de Cuenta Atrás Mejorado (D H M S)
+                    if (Number(stats.lockExpiry) > now) {
+                        const diff = Number(stats.lockExpiry) - now;
+                        
+                        const days = Math.floor(diff / 86400);
+                        const hours = Math.floor((diff % 86400) / 3600);
+                        const mins = Math.floor((diff % 3600) / 60);
+                        const secs = diff % 60;
+
+                        if (lockStatus) {
+                            lockStatus.classList.remove('opacity-0');
+                            lockStatus.classList.add('opacity-100');
+                        }
+                        
+                        let timeStr = "";
+                        if (days > 0) timeStr += `${days}d `;
+                        if (hours > 0 || days > 0) timeStr += `${hours}h `;
+                        timeStr += `${mins}m ${secs}s`;
+                        
+                        if (lockTimer) lockTimer.innerText = `Locked: ${timeStr}`;
+                    } else {
+                        if (lockStatus) {
+                            lockStatus.classList.remove('opacity-100');
+                            lockStatus.classList.add('opacity-0');
+                        }
+                    }
+                }, 1000);
             }
 
             if (txtWalletBalance) {
                 txtWalletBalance.innerText = `$${Number(walletBal).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 6})}`;
             }
         } catch (error) {
-            console.warn("Using mock data because contracts are not deployed yet.");
-            if (txtTotalTreasury) txtTotalTreasury.innerText = "$1,240,450.00";
-            if (txtAPY) txtAPY.innerText = "5.42% APY";
-            if (txtUserBalance) txtUserBalance.innerText = "$340,000.00";
-            if (txtWalletBalance) txtWalletBalance.innerText = "$1,000.00";
+            console.warn("Using zero data because connection failed.");
+            if (txtTotalTreasury) txtTotalTreasury.innerText = "$0.00";
+            if (txtAPY) txtAPY.innerText = "0.00% APY";
+            if (txtUserBalance) txtUserBalance.innerText = "$0.00";
+            if (txtWalletBalance) txtWalletBalance.innerText = "$0.00";
         }
 
         updateWalletButton();
     }
+
 
     // ... (rest of helper functions)
 
