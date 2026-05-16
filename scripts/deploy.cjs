@@ -37,8 +37,8 @@ async function main() {
 
   console.log("\nDeploying TeraVault...");
   console.log("  Asset:", usdcAddress);
-  console.log("  Lock period:", lockPeriod, "seconds (30 days)");
-  console.log("  Withdrawal fee:", withdrawalFee, "bps (0.1%)");
+  console.log("  Lock period:", lockPeriod, "seconds (Default)");
+  console.log("  Withdrawal fee:", withdrawalFee, "bps (0%)");
 
   const TeraVault = await hre.ethers.getContractFactory("TeraVault");
   const vault = await TeraVault.deploy(usdcAddress, lockPeriod, withdrawalFee);

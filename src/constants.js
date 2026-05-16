@@ -21,7 +21,7 @@ export const IERC20_ABI = [
 // Direcciones de ejemplo (se actualizarán al hacer deploy en Fuji)
 export const CONTRACT_ADDRESSES = {
   fuji: {
-    vault: "0xeD021855e3f0fb1513364DF7B601C7041cE83338",
+    vault: "0x0EBce804B5DCb66Ea57cD61e2D5751d8085bDcC0",
     usdc: "0x5425890298aed601595a70AB815c96711a31Bc65" // Fuji USDC real
   },
 
