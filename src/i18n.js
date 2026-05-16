@@ -28,7 +28,9 @@ export const translations = {
         deposit: "Deposit",
         upcoming: "Upcoming",
         low_risk: "Low Risk",
-        medium_risk: "Medium Risk"
+        medium_risk: "Medium Risk",
+        quick_invest: "Quick Investment",
+        confirm_deposit: "Confirm Deposit"
     },
     es: {
         dashboard: "Panel",
@@ -59,8 +61,11 @@ export const translations = {
         deposit: "Depositar",
         upcoming: "Próximamente",
         low_risk: "Riesgo Bajo",
-        medium_risk: "Riesgo Medio"
+        medium_risk: "Riesgo Medio",
+        quick_invest: "Inversión Rápida",
+        confirm_deposit: "Confirmar Depósito"
     }
+
 
 };
 

@@ -79,10 +79,29 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateWalletButton();
     });
 
+    // --- Modal de Inversión Rápida (FAB) ---
+    const fab = document.getElementById('fab-quick-invest');
+    const modal = document.getElementById('modal-quick-invest');
+    const closeBase = document.getElementById('modal-close-base');
+
+    if (fab && modal) {
+        fab.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        });
+    }
+
+    if (closeBase) {
+        closeBase.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+    }
+
     // Evento conectar wallet
     if (btnConnect) {
         btnConnect.addEventListener('click', async () => {
-            if (blockchain.address) return; // Ya conectado
+            if (blockchain.address) return; 
             
             try {
                 btnConnect.innerText = i18n.currentLang === 'en' ? 'Connecting...' : 'Conectando...';
@@ -96,17 +115,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Auto-update si ya estaba conectado
-    if (window.ethereum && window.ethereum.selectedAddress) {
-        try {
-            await blockchain.connect();
-            await updateUI();
-        } catch (e) {
-            console.error("Auto-connect failed", e);
+    // --- Auto-conexión Proactiva ---
+    async function autoConnect() {
+        if (window.ethereum) {
+            // Verificamos si ya tenemos permisos previos
+            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+            if (accounts.length > 0) {
+                try {
+                    await blockchain.connect();
+                    await updateUI();
+                } catch (e) {
+                    console.error("Auto-connect failed", e);
+                }
+            }
         }
     }
 
-    // --- Efectos Visuales (de legacy script.js) ---
+    autoConnect();
+
+    // --- Efectos Visuales ---
     const observerOptions = { threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -124,5 +151,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         observer.observe(item);
     });
 });
+
 
 

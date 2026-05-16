@@ -235,9 +235,43 @@
 
 
     <!-- FAB -->
-    <button class="fixed bottom-24 right-4 w-14 h-14 bg-secondary text-background rounded-full shadow-2xl shadow-secondary/20 flex items-center justify-center z-40 active:scale-90 transition-transform border border-white/20">
+    <button id="fab-quick-invest" class="fixed bottom-24 right-4 w-14 h-14 bg-secondary text-background rounded-full shadow-2xl shadow-secondary/20 flex items-center justify-center z-40 active:scale-90 transition-transform border border-white/20">
         <span class="material-symbols-outlined font-bold">add</span>
     </button>
+
+    <!-- Quick Invest Modal -->
+    <div id="modal-quick-invest" class="hidden fixed inset-0 z-[100] items-center justify-center p-4">
+        <div id="modal-close-base" class="absolute inset-0 bg-background/60 backdrop-blur-xl"></div>
+        <div class="glass-card w-full max-w-md p-8 rounded-3xl border border-outline-variant relative animate-in fade-in zoom-in duration-300">
+            <h2 class="text-2xl font-black text-white tracking-tight mb-2" data-i18n="quick_invest">Quick Investment</h2>
+            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-8">Tera USDC-Prime Vault</p>
+            
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest ml-1">Amount to Invest</label>
+                    <div class="relative">
+                        <input type="number" class="w-full bg-surface-variant/30 border border-outline-variant rounded-2xl px-6 py-4 text-2xl font-black text-white focus:border-primary focus:ring-0" placeholder="0.00">
+                        <span class="absolute right-6 top-1/2 -translate-y-1/2 text-sm font-black text-on-surface-variant">USDC</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 bg-surface-variant/20 rounded-2xl border border-outline-variant/30">
+                        <span class="text-[9px] font-bold text-on-surface-variant uppercase block mb-1">Expected APY</span>
+                        <span class="text-lg font-black text-secondary">5.42%</span>
+                    </div>
+                    <div class="p-4 bg-surface-variant/20 rounded-2xl border border-outline-variant/30">
+                        <span class="text-[9px] font-bold text-on-surface-variant uppercase block mb-1">Lock Period</span>
+                        <span class="text-lg font-black text-white">30 Days</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary w-full py-4 rounded-2xl font-black text-base transition-all active:scale-95 shadow-xl shadow-primary/20" data-i18n="confirm_deposit">
+                    Confirm Deposit
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script type="module" src="./src/main.js"></script>
 </body>
