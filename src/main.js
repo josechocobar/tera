@@ -74,9 +74,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
 
                     // 2. Reloj de Cuenta Atrás Mejorado (D H M S)
+                    const btnWithdraw = document.getElementById('btn-withdraw');
                     if (Number(stats.lockExpiry) > now) {
                         const diff = Number(stats.lockExpiry) - now;
                         
+                        // Si está bloqueado, botón deshabilitado
+                        if (btnWithdraw) {
+                            btnWithdraw.classList.add('opacity-50', 'cursor-not-allowed');
+                            btnWithdraw.disabled = true;
+                        }
+
                         const days = Math.floor(diff / 86400);
                         const hours = Math.floor((diff % 86400) / 3600);
                         const mins = Math.floor((diff % 3600) / 60);
@@ -94,6 +101,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                         
                         if (lockTimer) lockTimer.innerText = `Locked: ${timeStr}`;
                     } else {
+                        // Si ya no está bloqueado y hay saldo, habilitamos el botón
+                        if (btnWithdraw && Number(stats.userBalance) > 0) {
+                            btnWithdraw.classList.remove('opacity-50', 'cursor-not-allowed');
+                            btnWithdraw.disabled = false;
+                        }
+
                         if (lockStatus) {
                             lockStatus.classList.remove('opacity-100');
                             lockStatus.classList.add('opacity-0');
