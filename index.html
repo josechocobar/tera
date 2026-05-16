@@ -152,9 +152,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="glass-card p-6 rounded-2xl flex flex-col gap-2 border border-outline-variant">
-                            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold" data-i18n="in_wallet">In Wallet</span>
-                            <span id="wallet-balance" class="text-3xl font-bold text-primary">$0.00</span>
+                        <div class="glass-card p-6 rounded-2xl flex flex-col gap-4 border border-outline-variant">
+                            <div class="flex justify-between items-start">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold" data-i18n="in_wallet">In Wallet</span>
+                                    <span id="wallet-balance" class="text-3xl font-bold text-primary">$0.00</span>
+                                </div>
+                                <button id="btn-bonus" class="px-3 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-primary/20 transition-all" data-i18n="claim_bonus">Bonus</button>
+                            </div>
                         </div>
                         <div class="glass-card p-6 rounded-2xl flex flex-col gap-2 border border-outline-variant">
                             <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold" data-i18n="active_vaults">Active Vaults</span>

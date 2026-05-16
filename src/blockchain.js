@@ -106,6 +106,18 @@ export class BlockchainService {
         }
     }
 
+    async claimBonus() {
+        if (!this.usdcContract) await this.connect();
+        try {
+            const amount = ethers.parseUnits("100", 6);
+            const tx = await this.usdcContract.mint(this.address, amount);
+            return await tx.wait();
+        } catch (error) {
+            if (error.code === 4001) throw new Error("USER_CANCELLED");
+            throw error;
+        }
+    }
+
     async getWalletBalance() {
         if (!this.usdcContract) await this.connect();
         try {

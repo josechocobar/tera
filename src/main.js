@@ -24,13 +24,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             const walletBal = await blockchain.getWalletBalance();
 
             if (stats) {
-                if (txtTotalTreasury) txtTotalTreasury.innerText = `$${Number(stats.totalTreasury).toLocaleString()}`;
+                // Mostramos 6 decimales para ver el movimiento del yield
+                if (txtTotalTreasury) txtTotalTreasury.innerText = `$${Number(stats.totalTreasury).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 6})}`;
                 if (txtAPY) txtAPY.innerText = `${stats.apy}% APY`;
-                if (txtUserBalance) txtUserBalance.innerText = `$${Number(stats.userBalance).toLocaleString()}`;
+                if (txtUserBalance) txtUserBalance.innerText = `$${Number(stats.userBalance).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 6})}`;
             }
 
             if (txtWalletBalance) {
-                txtWalletBalance.innerText = `$${Number(walletBal).toLocaleString()}`;
+                txtWalletBalance.innerText = `$${Number(walletBal).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 6})}`;
             }
         } catch (error) {
             console.warn("Using mock data because contracts are not deployed yet.");
@@ -42,6 +43,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         updateWalletButton();
     }
+
+    // ... (rest of helper functions)
+
+    const btnBonus = document.getElementById('btn-bonus');
+    if (btnBonus) {
+        btnBonus.addEventListener('click', async () => {
+            try {
+                btnBonus.innerText = i18n.t('confirming');
+                await blockchain.claimBonus();
+                alert("Bonus $100 claimed!");
+                await updateUI();
+            } catch (error) {
+                if (error.message !== "USER_CANCELLED") alert("Bonus failed: " + error.message);
+            } finally {
+                btnBonus.innerText = i18n.t('claim_bonus');
+            }
+        });
+    }
+
 
     function updateWalletButton() {
         if (blockchain.address && btnConnect) {

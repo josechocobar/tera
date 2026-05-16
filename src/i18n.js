@@ -39,7 +39,8 @@ export const translations = {
         min: "min",
         hour: "hour",
         day: "day",
-        days: "days"
+        days: "days",
+        claim_bonus: "Claim $100 Bonus"
     },
     es: {
         dashboard: "Panel",
@@ -81,8 +82,10 @@ export const translations = {
         min: "min",
         hour: "hora",
         day: "día",
-        days: "días"
+        days: "días",
+        claim_bonus: "Reclamar Bono $100"
     }
+
 
 
 

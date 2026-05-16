@@ -15,14 +15,15 @@ export const IERC20_ABI = [
   "function allowance(address owner, address spender) view returns (uint256)",
   "function approve(address spender, uint256 amount) returns (bool)",
   "function transfer(address to, uint256 amount) returns (bool)",
+  "function mint(address to, uint256 amount)",
   "event Transfer(address indexed from, address indexed to, uint256 value)"
 ];
 
 // Direcciones de ejemplo (se actualizarán al hacer deploy en Fuji)
 export const CONTRACT_ADDRESSES = {
   fuji: {
-    vault: "0x0EBce804B5DCb66Ea57cD61e2D5751d8085bDcC0",
-    usdc: "0x5425890298aed601595a70AB815c96711a31Bc65" // Fuji USDC real
+    vault: "0x8771917e33950Cc2a1810BC83D020F0168dC6DBC",
+    usdc: "0x52703d3128823BF1278149A90688Da81CAa1777e" // Fuji USDC real
   },
 
   local: {

@@ -11,25 +11,14 @@ async function main() {
   console.log("Network:", hre.network.name);
   console.log("");
 
-  // ── Step 1: Deploy or use existing USDC ────────────────
-  let usdcAddress;
+  // ── Step 1: Deploy Private Mock USDC ────────────────
+  console.log("Deploying Private MockUSDC for testing...");
+  const MockUSDC = await hre.ethers.getContractFactory("MockUSDC");
+  const usdc = await MockUSDC.deploy();
+  await usdc.waitForDeployment();
+  const usdcAddress = await usdc.getAddress();
+  console.log("✅ Private MockUSDC deployed at:", usdcAddress);
 
-  if (hre.network.name === "fuji" || hre.network.name === "avalanche") {
-    // Use real USDC addresses on Avalanche networks
-    usdcAddress =
-      hre.network.name === "avalanche"
-        ? "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E" // USDC on C-Chain mainnet
-        : "0x5425890298aed601595a70AB815c96711a31Bc65"; // USDC on Fuji testnet
-    console.log("Using existing USDC at:", usdcAddress);
-  } else {
-    // Deploy Mock USDC for local testing
-    console.log("Deploying MockUSDC...");
-    const MockUSDC = await hre.ethers.getContractFactory("MockUSDC");
-    const usdc = await MockUSDC.deploy();
-    await usdc.waitForDeployment();
-    usdcAddress = await usdc.getAddress();
-    console.log("✅ MockUSDC deployed at:", usdcAddress);
-  }
 
   // ── Step 2: Deploy Vault ───────────────────────────────
   const lockPeriod = 60; // 1 minute (default)
