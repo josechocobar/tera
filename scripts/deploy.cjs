@@ -33,7 +33,13 @@ async function main() {
   const vault = await TeraVault.deploy(usdcAddress, lockPeriod, withdrawalFee);
   await vault.waitForDeployment();
   const vaultAddress = await vault.getAddress();
-  console.log("✅ TeraVault deployed at:", vaultAddress);
+  console.log(`✅ TeraVault deployed at: ${vaultAddress}`);
+
+  // NUEVO: Donamos 1,000 USDC al Vault como "Reserva de Rendimiento"
+  console.log("\nFunding Vault with yield reserve...");
+  const reserveAmount = hre.ethers.parseUnits("1000", 6);
+  await usdc.mint(vaultAddress, reserveAmount);
+  console.log("✅ Vault funded with 1,000 USDC reserve!");
 
   // ── Step 3: Deploy Strategy ────────────────────────────
   console.log("\nDeploying SimpleYieldStrategy...");

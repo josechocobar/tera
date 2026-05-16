@@ -35,29 +35,34 @@ export class BlockchainService {
         if (!this.vaultContract) await this.connect();
 
         try {
-            const totalDeposited = await this.vaultContract.totalDeposited();
-            const apy = await this.vaultContract.currentAPY();
+            const totalDeposited = await this.vaultContract.totalActiveDeposits();
             
             let userBalance = 0;
             let yieldEarned = 0;
+            let lockExpiry = 0;
+            let userApy = 0;
             
             if (this.address) {
                 const position = await this.vaultContract.getPosition(this.address);
-                userBalance = position.deposited;
+                userBalance = position.amount;
                 yieldEarned = position.yieldEarned;
+                lockExpiry = position.lockExpiry;
+                userApy = position.currentApy;
             }
 
             return {
                 totalTreasury: ethers.formatUnits(totalDeposited, 6),
-                apy: (Number(apy) / 100).toFixed(2),
+                apy: (Number(userApy) / 100).toFixed(2),
                 userBalance: ethers.formatUnits(userBalance, 6),
-                userYield: ethers.formatUnits(yieldEarned, 6)
+                userYield: ethers.formatUnits(yieldEarned, 6),
+                lockExpiry: Number(lockExpiry)
             };
         } catch (error) {
             console.error("Error fetching stats:", error);
             return null;
         }
     }
+
 
     async deposit(amount, duration) {
         if (!this.vaultContract) await this.connect();
