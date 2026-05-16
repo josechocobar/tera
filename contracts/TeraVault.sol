@@ -38,6 +38,7 @@ contract TeraVault is ReentrancyGuard, Ownable, Pausable {
         uint256 yieldEarned;    // Accumulated yield (updated on interactions)
         uint256 lockExpiry;     // Timestamp when lock expires
         uint256 lastUpdate;     // Last time yield was calculated
+        uint256 userApy;        // APY for this user's current lock (in bps)
     }
 
     mapping(address => UserInfo) public users;
@@ -87,21 +88,23 @@ contract TeraVault is ReentrancyGuard, Ownable, Pausable {
     // ──────────────────────────────────────────────
 
     /**
-     * @notice Deposit `amount` of the asset token into the vault.
-     *         Starts or extends the user's lock period.
+     * @notice Deposit `amount` of the asset token into the vault with a specific `duration`.
+     * @param amount    Amount to deposit.
+     * @param duration  Lock duration in seconds.
      */
-    function deposit(uint256 amount) external nonReentrant whenNotPaused {
+    function deposit(uint256 amount, uint256 duration) external nonReentrant whenNotPaused {
         require(amount > 0, "Vault: zero amount");
+        require(duration >= 60, "Vault: min 1 minute");
+        require(duration <= 365 days, "Vault: max 1 year");
 
-        // Update yield before changing balances
         _updateYield(msg.sender);
 
-        // Transfer tokens in
         asset.safeTransferFrom(msg.sender, address(this), amount);
 
         UserInfo storage user = users[msg.sender];
         user.deposited += amount;
-        user.lockExpiry = block.timestamp + lockPeriod;
+        user.lockExpiry = block.timestamp + duration;
+        user.userApy = getAPYForDuration(duration);
         totalDeposited += amount;
 
         emit Deposited(msg.sender, amount, user.lockExpiry);
@@ -172,15 +175,23 @@ contract TeraVault is ReentrancyGuard, Ownable, Pausable {
     }
 
     /**
-     * @notice Returns the current vault APY in basis points (e.g. 542 = 5.42%).
-     *         For MVP this is a simple estimation; in production it would
-     *         query the Strategy for real-time rates.
+     * @notice Returns the current vault APY in basis points for a given duration.
+     */
+    function getAPYForDuration(uint256 duration) public pure returns (uint256) {
+        if (duration < 1 hours) return 200;    // 2%
+        if (duration < 1 days) return 400;     // 4%
+        if (duration < 7 days) return 600;     // 6%
+        if (duration < 30 days) return 800;    // 8%
+        return 1200;                           // 12% for >= 30 days
+    }
+
+    /**
+     * @notice Returns the default vault APY.
      */
     function currentAPY() external view returns (uint256) {
         if (strategy == address(0)) {
-            return 542; // 5.42% default for MVP simulation
+            return 542; 
         }
-        // TODO: Query strategy for real APY
         return 542;
     }
 
@@ -202,18 +213,19 @@ contract TeraVault is ReentrancyGuard, Ownable, Pausable {
 
     /**
      * @dev Calculates pending yield since last update.
-     *      Simple model: 5.42% annualized, linear accrual.
      */
     function _pendingYield(address account) internal view returns (uint256) {
         UserInfo memory user = users[account];
         if (user.deposited == 0 || user.lastUpdate == 0) return 0;
 
         uint256 elapsed = block.timestamp - user.lastUpdate;
-        // APY 5.42% = 542 bps. Per-second rate: deposited * 542 / 10000 / 365.25 days
-        uint256 annualYield = (user.deposited * 542) / BPS_DENOMINATOR;
+        uint256 apy = user.userApy > 0 ? user.userApy : 542;
+
+        uint256 annualYield = (user.deposited * apy) / BPS_DENOMINATOR;
         uint256 yield_ = (annualYield * elapsed) / 365.25 days;
         return yield_;
     }
+
 
     // ──────────────────────────────────────────────
     //  Admin

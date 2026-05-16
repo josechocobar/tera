@@ -59,29 +59,29 @@ export class BlockchainService {
         }
     }
 
-    async deposit(amount) {
+    async deposit(amount, duration) {
         if (!this.vaultContract) await this.connect();
         
         const amountWei = ethers.parseUnits(amount.toString(), 6);
-        const vaultAddress = await this.vaultContract.getAddress();
-
-        // 1. Check Allowance
-        const allowance = await this.usdcContract.allowance(this.address, vaultAddress);
+        const durationSeconds = Number(duration);
         
-        if (allowance < amountWei) {
-            console.log("Approving USDC...");
-            const approveTx = await this.usdcContract.approve(vaultAddress, ethers.MaxUint256);
-            await approveTx.wait();
-            console.log("Approved!");
+        try {
+            // Check allowance
+            const allowance = await this.usdcContract.allowance(this.address, CONTRACT_ADDRESSES[this.network].vault);
+            if (allowance < amountWei) {
+                const approveTx = await this.usdcContract.approve(CONTRACT_ADDRESSES[this.network].vault, ethers.MaxUint256);
+                await approveTx.wait();
+            }
+
+            const tx = await this.vaultContract.deposit(amountWei, durationSeconds);
+            const receipt = await tx.wait();
+            return receipt;
+        } catch (error) {
+            if (error.code === 4001 || error.message.includes('user rejected')) {
+                throw new Error("USER_CANCELLED");
+            }
+            throw error;
         }
-
-        // 2. Deposit
-        console.log("Depositing...");
-        const depositTx = await this.vaultContract.deposit(amountWei);
-        const receipt = await depositTx.wait();
-        console.log("Deposit successful!", receipt);
-        
-        return receipt;
     }
 
     async getWalletBalance() {

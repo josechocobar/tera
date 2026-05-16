@@ -34,7 +34,12 @@ export const translations = {
         in_wallet: "In Wallet",
         add_to_metamask: "Add to MetaMask",
         confirming: "Confirming...",
-        deposit_success: "Deposit Successful!"
+        deposit_success: "Deposit Successful!",
+        cancelled_by_user: "Transaction cancelled in MetaMask.",
+        min: "min",
+        hour: "hour",
+        day: "day",
+        days: "days"
     },
     es: {
         dashboard: "Panel",
@@ -71,8 +76,14 @@ export const translations = {
         in_wallet: "En Billetera",
         add_to_metamask: "Añadir a MetaMask",
         confirming: "Confirmando...",
-        deposit_success: "¡Depósito Exitoso!"
+        deposit_success: "¡Depósito Exitoso!",
+        cancelled_by_user: "Transacción cancelada en MetaMask.",
+        min: "min",
+        hour: "hora",
+        day: "día",
+        days: "días"
     }
+
 
 
 

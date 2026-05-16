@@ -264,15 +264,21 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="p-4 bg-surface-variant/20 rounded-2xl border border-outline-variant/30">
-                        <span class="text-[9px] font-bold text-on-surface-variant uppercase block mb-1">Expected APY</span>
-                        <span class="text-lg font-black text-secondary">5.42%</span>
+                <div class="space-y-3">
+                    <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest ml-1">Lock Duration</label>
+                    <div id="duration-selector" class="grid grid-cols-3 gap-2">
+                        <button data-value="60" class="duration-btn py-2 px-3 rounded-xl border border-outline-variant text-[10px] font-bold hover:border-primary transition-all">1 <span data-i18n="min">min</span></button>
+                        <button data-value="900" class="duration-btn py-2 px-3 rounded-xl border border-outline-variant text-[10px] font-bold hover:border-primary transition-all">15 <span data-i18n="min">min</span></button>
+                        <button data-value="3600" class="duration-btn py-2 px-3 rounded-xl border border-outline-variant text-[10px] font-bold hover:border-primary transition-all">1 <span data-i18n="hour">hour</span></button>
+                        <button data-value="86400" class="duration-btn py-2 px-3 rounded-xl border border-outline-variant text-[10px] font-bold hover:border-primary transition-all">1 <span data-i18n="day">day</span></button>
+                        <button data-value="1296000" class="duration-btn py-2 px-3 rounded-xl border border-outline-variant text-[10px] font-bold hover:border-primary transition-all">15 <span data-i18n="days">days</span></button>
+                        <button data-value="2592000" class="duration-btn py-2 px-3 rounded-xl border border-primary bg-primary/10 text-white font-bold text-[10px]">30 <span data-i18n="days">days</span></button>
                     </div>
-                    <div class="p-4 bg-surface-variant/20 rounded-2xl border border-outline-variant/30">
-                        <span class="text-[9px] font-bold text-on-surface-variant uppercase block mb-1">Lock Period</span>
-                        <span class="text-lg font-black text-white">30 Days</span>
-                    </div>
+                </div>
+
+                <div class="p-4 bg-surface-variant/20 rounded-2xl border border-outline-variant/30 flex justify-between items-center">
+                    <span class="text-[9px] font-bold text-on-surface-variant uppercase" data-i18n="yield_performance">Expected APY</span>
+                    <span id="modal-apy" class="text-lg font-black text-secondary">8.00%</span>
                 </div>
 
                 <button id="btn-confirm-deposit" class="btn btn-primary w-full py-4 rounded-2xl font-black text-base transition-all active:scale-95 shadow-xl shadow-primary/20" data-i18n="confirm_deposit">

@@ -113,6 +113,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if (btnConfirmDeposit) {
+        let selectedDuration = 2592000; // Default 30 days
+
+        const durationBtns = modal.querySelectorAll('.duration-btn');
+        const txtModalAPY = document.getElementById('modal-apy');
+
+        const apyMap = {
+            "60": "2.00%",
+            "900": "2.00%",
+            "3600": "3.00%",
+            "86400": "4.00%",
+            "1296000": "6.00%",
+            "2592000": "8.00%"
+        };
+
+        durationBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                durationBtns.forEach(b => {
+                    b.classList.remove('border-primary', 'bg-primary/10', 'text-white');
+                    b.classList.add('border-outline-variant');
+                });
+                btn.classList.add('border-primary', 'bg-primary/10', 'text-white');
+                btn.classList.remove('border-outline-variant');
+                
+                selectedDuration = btn.getAttribute('data-value');
+                if (txtModalAPY) txtModalAPY.innerText = apyMap[selectedDuration] || "5.42%";
+            });
+        });
+
         btnConfirmDeposit.addEventListener('click', async () => {
             const inputAmount = modal.querySelector('input');
             const amount = inputAmount.value;
@@ -126,7 +154,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 btnConfirmDeposit.innerText = i18n.t('confirming');
                 btnConfirmDeposit.disabled = true;
 
-                await blockchain.deposit(amount);
+                await blockchain.deposit(amount, selectedDuration);
                 
                 btnConfirmDeposit.innerText = i18n.t('deposit_success');
                 setTimeout(() => {
@@ -138,12 +166,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 await updateUI();
             } catch (error) {
                 console.error(error);
-                alert("Deposit failed: " + error.message);
+                if (error.message === "USER_CANCELLED") {
+                    alert(i18n.t('cancelled_by_user'));
+                } else {
+                    alert("Deposit failed: " + error.message);
+                }
                 btnConfirmDeposit.innerText = i18n.t('confirm_deposit');
                 btnConfirmDeposit.disabled = false;
             }
         });
     }
+
 
     // Evento conectar wallet
     if (btnConnect) {
