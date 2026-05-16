@@ -40,7 +40,9 @@ export const translations = {
         hour: "hour",
         day: "day",
         days: "days",
-        claim_bonus: "Claim $100 Bonus"
+        claim_bonus: "Claim $100 Bonus",
+        min_claim_info: "Minimum $0.10 required to claim.",
+        claim_ready: "Yield ready to claim!"
     },
     es: {
         dashboard: "Panel",
@@ -83,7 +85,9 @@ export const translations = {
         hour: "hora",
         day: "día",
         days: "días",
-        claim_bonus: "Reclamar Bono $100"
+        claim_bonus: "Reclamar Bono $100",
+        min_claim_info: "Mínimo $0.10 para reclamar.",
+        claim_ready: "¡Ganancias listas para retirar!"
     }
 
 

@@ -142,7 +142,9 @@ contract TeraVault is ReentrancyGuard, Ownable, Pausable {
 
         UserInfo storage user = users[msg.sender];
         uint256 yield_ = user.yieldEarned;
-        require(yield_ > 0, "Vault: no yield");
+        
+        // Mínimo de 0.10 USDC (100,000 unidades con 6 decimales)
+        require(yield_ >= 100_000, "Vault: yield below minimum 0.10 USDC");
 
         user.yieldEarned = 0;
         asset.safeTransfer(msg.sender, yield_);

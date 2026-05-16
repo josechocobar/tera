@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const walletBal = await blockchain.getWalletBalance();
 
             if (stats) {
-                if (txtTotalTreasury) txtTotalTreasury.innerText = `$${Number(stats.totalTreasury).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 6})}`;
+                // Total Treasury: Solo 2 decimales para que se vea limpio
+                if (txtTotalTreasury) txtTotalTreasury.innerText = `$${Number(stats.totalTreasury).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
                 if (txtAPY) txtAPY.innerText = `${stats.apy}% APY`;
                 if (txtUserBalance) txtUserBalance.innerText = `$${Number(stats.userBalance).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 6})}`;
                 
@@ -48,6 +49,29 @@ document.addEventListener('DOMContentLoaded', async () => {
                         stats.userYield = currentYield; 
                     }
                     if (yieldLive) yieldLive.innerText = `+$${currentYield.toFixed(6)}`;
+
+                    // 1.1 Habilitar/Deshabilitar botón de Claim según el mínimo ($0.10)
+                    const btnClaim = document.getElementById('btn-claim');
+                    const claimStatusMsg = document.getElementById('claim-status-msg');
+                    if (btnClaim) {
+                        if (currentYield >= 0.10) {
+                            btnClaim.classList.remove('opacity-50', 'cursor-not-allowed');
+                            btnClaim.disabled = false;
+                            if (claimStatusMsg) {
+                                claimStatusMsg.innerText = i18n.t('claim_ready');
+                                claimStatusMsg.classList.replace('text-on-surface-variant', 'text-secondary');
+                                claimStatusMsg.classList.remove('opacity-50');
+                            }
+                        } else {
+                            btnClaim.classList.add('opacity-50', 'cursor-not-allowed');
+                            btnClaim.disabled = true;
+                            if (claimStatusMsg) {
+                                claimStatusMsg.innerText = i18n.t('min_claim_info');
+                                claimStatusMsg.classList.replace('text-secondary', 'text-on-surface-variant');
+                                claimStatusMsg.classList.add('opacity-50');
+                            }
+                        }
+                    }
 
                     // 2. Reloj de Cuenta Atrás Mejorado (D H M S)
                     if (Number(stats.lockExpiry) > now) {
