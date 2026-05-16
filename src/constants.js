@@ -3,7 +3,7 @@ export const TERA_VAULT_ABI = [
   "function totalDeposited() view returns (uint256)",
   "function currentAPY() view returns (uint256)",
   "function getPosition(address account) view returns (uint256 deposited, uint256 yieldEarned, uint256 lockExpiry, bool isLocked)",
-  "function deposit(uint256 amount)",
+  "function deposit(uint256 amount, uint256 duration)",
   "function withdraw()",
   "function claimYield()",
   "event Deposited(address indexed user, uint256 amount, uint256 lockExpiry)",
@@ -21,7 +21,7 @@ export const IERC20_ABI = [
 // Direcciones de ejemplo (se actualizarán al hacer deploy en Fuji)
 export const CONTRACT_ADDRESSES = {
   fuji: {
-    vault: "0x8d6A23361EC6988e81E573be723C3993a0FA5Bf1",
+    vault: "0xeD021855e3f0fb1513364DF7B601C7041cE83338",
     usdc: "0x5425890298aed601595a70AB815c96711a31Bc65" // Fuji USDC real
   },
 

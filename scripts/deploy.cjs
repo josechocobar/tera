@@ -32,8 +32,8 @@ async function main() {
   }
 
   // ── Step 2: Deploy Vault ───────────────────────────────
-  const lockPeriod = 30 * 24 * 60 * 60; // 30 days
-  const withdrawalFee = 10; // 0.1%
+  const lockPeriod = 60; // 1 minute (default)
+  const withdrawalFee = 0; // 0%
 
   console.log("\nDeploying TeraVault...");
   console.log("  Asset:", usdcAddress);
