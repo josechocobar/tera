@@ -13,7 +13,7 @@ async function main() {
 
   // ── Step 1: Deploy Private Mock USDC ────────────────
   console.log("Deploying Private MockUSDC for testing...");
-  const MockUSDC = await hre.ethers.getContractFactory("MockUSDC");
+  const MockUSDC = await hre.ethers.getContractFactory("contracts/MockUSDC.sol:MockUSDC");
   const usdc = await MockUSDC.deploy();
   await usdc.waitForDeployment();
   const usdcAddress = await usdc.getAddress();
