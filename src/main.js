@@ -103,10 +103,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                         // Log para que el usuario pueda ver en consola que está funcionando
                         if (now % 10 === 0) console.log(`Lock ends in ${diff} seconds`);
                     } else {
-                        // Si ya no está bloqueado y hay saldo, habilitamos el botón
-                        if (btnWithdraw && Number(stats.userBalance) > 0) {
+                        // Si ya no está bloqueado y hay saldo suficiente (mínimo $0.10), habilitamos el botón
+                        if (btnWithdraw && Number(stats.userBalance) >= 0.10) {
                             btnWithdraw.classList.remove('opacity-50', 'cursor-not-allowed');
                             btnWithdraw.disabled = false;
+                        } else if (btnWithdraw) {
+                            btnWithdraw.classList.add('opacity-50', 'cursor-not-allowed');
+                            btnWithdraw.disabled = true;
                         }
 
                         if (lockStatus) {

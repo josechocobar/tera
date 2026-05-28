@@ -117,6 +117,7 @@ contract TeraVault is ReentrancyGuard, Ownable, Pausable {
     function withdraw() external nonReentrant {
         UserInfo storage user = users[msg.sender];
         require(user.deposited > 0, "Vault: nothing deposited");
+        require(user.deposited >= 100_000, "Vault: withdrawal below minimum 0.10 USDC");
         require(block.timestamp >= user.lockExpiry, "Vault: still locked");
 
         _updateYield(msg.sender);
